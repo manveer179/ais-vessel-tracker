@@ -1,0 +1,9 @@
+# Browser automation used by the ShipmentLink tracking scraper.
+playwright>=1.45,<2
+openpyxl>=3.1,<4
+pyinstaller>=6.10,<7
+tkcalendar>=1.6,<2
+fastapi>=0.115,<1
+uvicorn[standard]>=0.30,<1
+requests>=2.32,<3
+python-dotenv>=1.0,<2
