@@ -1,0 +1,36 @@
+name: AIS Vessel Position
+
+on:
+  schedule:
+    - cron: "0 */2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  collect-position:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install requests
+        run: python -m pip install requests
+
+      - name: Collect vessel position
+        run: python ais_vessel_scraper.py --once
+
+      - name: Save updated CSV
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add vessel_positions.csv
+          git diff --cached --quiet || git commit -m "Update vessel position"
+          git push
